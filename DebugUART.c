@@ -2,7 +2,7 @@
  * DebugUART.c
  *
  * Created: 4/2/2019 7:29:57 AM
- *  Author: labrat
+ *  Author: PancakePuppy (John White)
  */ 
 #define F_CPU 3333333UL // Set F_CPU
 #define DEBUG_BAUD 19200UL // Set DEBUG_BAUD rate
