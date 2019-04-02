@@ -4,7 +4,7 @@
  * Helper functions for ATMEGA4809 Curiosity Nano CDC Serial Port
  * Serial port is USART3 on PB0 (TxD) and PB1 (RxD)
  * Created: 4/2/2019 7:29:45 AM
- *  Author: labrat
+ *  Author: PancakePuppy (John White)
  */ 
 #include <avr/io.h>
 
