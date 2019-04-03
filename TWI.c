@@ -15,6 +15,7 @@ void TWIM_Init()
 	TWI0_MBAUD = 10; // 94.44kHz with 3.333MHz F_CPU and 2us Trise
 	TWI0_MCTRLA |= TWI_ENABLE_bm; // Enable TWI0
 	TWI0_MSTATUS = TWI_BUSSTATE_IDLE_gc; // Set bus state to IDLE
+	return;
 }
 
 // TWIM_Communicate performs TWI Master reads and writes.
