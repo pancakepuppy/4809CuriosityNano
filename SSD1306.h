@@ -2,7 +2,7 @@
  * SSD1306.h
  *
  * Created: 4/3/2019 12:20:55 PM
- *  Author: labrat
+ *  Author: PancakePuppy (John White)
  */ 
 
 
