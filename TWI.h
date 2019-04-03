@@ -14,8 +14,6 @@
 
 // Function prototypes
 void TWIM_init();
-void TWIM_write(uint8_t, uint8_t*, uint8_t);
-
-
+uint8_t TWIM_communicate(uint8_t, uint8_t*, uint8_t);
 
 #endif /* TWI_H_ */
