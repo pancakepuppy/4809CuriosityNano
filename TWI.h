@@ -13,7 +13,7 @@
 #define TWI_WRITE 0x00
 
 // Function prototypes
-void TWIM_init();
-uint8_t TWIM_communicate(uint8_t, uint8_t*, uint8_t);
+void TWIM_Init();
+uint8_t TWIM_Communicate(uint8_t addr, uint8_t * data, uint8_t length);
 
 #endif /* TWI_H_ */
