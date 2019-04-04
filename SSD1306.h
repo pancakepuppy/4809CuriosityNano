@@ -11,7 +11,10 @@
 #include <stdint.h>
 // Function Prototypes
 void SSD1306_Init();
-void SSD1306_SetPage(uint8_t);
+void SSD1306_SetPage(uint8_t page);
+void SSD1306_SetColumn(uint8_t addr);
+void SSD1306_Fill(uint8_t data);
+void SSD1306_PageWrite(uint8_t *data, uint8_t length, uint8_t page, uint8_t coloffset);
 
 // Defines
 #define SSD1306_ADDR ( 0x3C << 1 ) // SSD1306 at 0x3C 7-bit slave addr
@@ -30,6 +33,8 @@ void SSD1306_SetPage(uint8_t);
 #define SSD1306_CMD_DISPLAY_ON 0xAF
 #define SSD1306_CMD_DISPLAY_OFF 0xAE
 
+#define SSD1306_CMD_SET_LOWER_COLUMN_ADDR 0x00 // Set low nibble
+#define SSD1306_CMD_SET_UPPER_COLUMN_ADDR 0x10 // Set low nibble
 #define SSD1306_CMD_SET_MEMORY_ADDR_MODE 0x20
 #define SSD1306_CMD_SET_COLUMN_RANGE 0x21 // Use in Horz/Vert mode, follow with 0x00 and 0x127 for 128 column display
 #define SSD1306_CMD_SET_PAGE_RANGE 0x22 // Use in Horz/Vert mode, follow with 0x00 and 0x03 for 32 row display
