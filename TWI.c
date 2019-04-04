@@ -52,7 +52,7 @@ uint8_t TWIM_Communicate(uint8_t addr, uint8_t *data, uint8_t length)
 	{
 		while(byte_count < length)
 		{
-			if(TWIM_TransmitData(data + byte_count))
+			if(TWIM_TransmitData(*(data + byte_count)))
 				return byte_count;
 			byte_count++;
 		}
@@ -63,6 +63,7 @@ uint8_t TWIM_Communicate(uint8_t addr, uint8_t *data, uint8_t length)
 }
 
 // Piecewise transaction function - Address Phase
+// Function takes uint8_t addr and returns 0 if successful and 1 if failed
 uint8_t TWIM_AddressPhase(uint8_t addr)
 {
 	TWI0_MADDR = addr;					// Write slave address into MADDR to begin a transaction
@@ -95,9 +96,9 @@ uint8_t TWIM_ReceiveData(uint8_t *data)
 }
 
 // Piecewise transaction function - Transmit Data
-uint8_t TWIM_TransmitData(uint8_t *data)
+uint8_t TWIM_TransmitData(uint8_t data)
 {
-	TWI0_MDATA = *data; // Move byte into MDATA register to begin data transmission
+	TWI0_MDATA = data; // Move byte into MDATA register to begin data transmission
 	while(!(TWI0_MSTATUS & TWI_WIF_bm)); // Wait for Write Interrupt Flag set
 	if(TWI0_MSTATUS & ( TWI_ARBLOST_bm|TWI_BUSERR_bm|TWI_RXACK_bm)) // Check for NACK/BUSERR/ARBLOST
 	{
