@@ -7,6 +7,7 @@
 #include "SSD1306.h"
 #include "TWI.h"
 
+// Initialization sequence for 128x32 OLED
 uint8_t init_seq[] = {SSD1306_CTRL_CMD_STREAM,
 	SSD1306_CMD_DISPLAY_OFF,
 	SSD1306_CMD_SET_DISPLAY_CLK_DIV, 0x80,
@@ -25,8 +26,7 @@ uint8_t init_seq[] = {SSD1306_CTRL_CMD_STREAM,
 	SSD1306_CMD_DISPLAY_NORMAL,
 SSD1306_CMD_DISPLAY_ON};
 
-
-
+// SSD1306_Init() sends the initialization sequence to the display. 
 void SSD1306_Init()
 {
 	TWIM_Communicate(SSD1306_ADDR_W, init_seq, sizeof(init_seq));
@@ -37,7 +37,10 @@ void SSD1306_SetPage(uint8_t page)
 {
 	if(page > 7) // Page can only be 0 through 7
 		return;
-	uint8_t page_seq[2] = {SSD1306_CTRL_CMD_SINGLE, (SSD1306_CMD_SET_PAGE_START+page)};
-	TWIM_Communicate(SSD1306_ADDR_W, page_seq, sizeof(page_seq));
+	if(TWIM_AddressPhase(SSD1306_ADDR_W))
+		return; // Return if address phase fails
+	TWIM_TransmitData(SSD1306_CTRL_CMD_SINGLE);
+	TWIM_TransmitData(SSD1306_CMD_SET_PAGE_START + page);
+	TWIM_EndTransaction();
 	return;
 }
