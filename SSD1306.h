@@ -15,6 +15,9 @@ void SSD1306_SetPage(uint8_t page);
 void SSD1306_SetColumn(uint8_t addr);
 void SSD1306_Fill(uint8_t data);
 void SSD1306_PageWrite(uint8_t *data, uint8_t length, uint8_t page, uint8_t coloffset);
+void SSD1306_SetAddrMode(uint8_t addrmode);
+void SSD1306_SetColumnRange(uint8_t colfrom, uint8_t colto);
+void SSD1306_SetPageRange(uint8_t pagefrom, uint8_t pageto);
 
 // Defines
 #define SSD1306_ADDR ( 0x3C << 1 ) // SSD1306 at 0x3C 7-bit slave addr
@@ -54,5 +57,11 @@ void SSD1306_PageWrite(uint8_t *data, uint8_t length, uint8_t page, uint8_t colo
 #define SSD1306_CMD_SET_CHARGE_PUMP 0x8D // Follow with 0x14
 
 #define SSD1306_CMD_NOP 0xE3
+
+// Function argument defines
+#define SSD1306_ADDRMODE_HORZ 0x00
+#define SSD1306_ADDRMODE_VERT 0x01
+#define SSD1306_ADDRMODE_PAGE 0x02
+#define SSD1306_ADDRMODE_INVALID 0x03
 
 #endif /* SSD1306_H_ */
