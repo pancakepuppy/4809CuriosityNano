@@ -15,16 +15,16 @@ uint8_t init_seq[] = {SSD1306_CTRL_CMD_STREAM,
 	SSD1306_CMD_SET_DISPLAY_CLK_DIV, 0x80, // Set Display Clock Divide Ratio/Oscillator Frequency; Divide Ratio = 1, Oscillator Frequency = 0x8 (0x0 to 0xF)
 	SSD1306_CMD_SET_MUX_RATIO, 0x1F, // Set Multiplex Ratio; 32MUX
 	SSD1306_CMD_SET_DISPLAY_OFFSET, 0x00, // Set vertical shift by COM; Offset = 0
-	SSD1306_CMD_SET_DISPLAY_START_LINE | 0x0, // Set display RAM start line register; Start line = 0
+	SSD1306_CMD_SET_DISPLAY_RAM_START_LINE | 0x0, // Set display RAM start line register; Start line = 0
 	SSD1306_CMD_SET_MEMORY_ADDR_MODE, 0x02, // Set memory addressing mode; 0 for Horizontal, 1 for Vertical, 2 for Page Mode
 	SSD1306_CMD_SET_SEGMENT_REMAP | 0x01, // Set segment re-map; Column address 127 is mapped to SEG0
-	SSD1306_CMD_SET_COM_SCAN_MODE, // Set COM output scan direction; Remapped mode, scan from COM31 to COM0
+	SSD1306_CMD_SET_COM_SCAN_REMAPPED, // Set COM output scan direction; Remapped mode, scan from COM31 to COM0
 	SSD1306_CMD_SET_COM_PIN_MAP, 0x02, // Set COM pins hardware configuration; Sequential COM pin configuration + Disable COM left/right remap
 	SSD1306_CMD_SET_CONTRAST_CONTROL, 0x7F, // Set contrast control; Contrast = 0x7F (Unsure if this actually does anything)
 	SSD1306_CMD_SET_PRECHARGE, 0xF1, // Set pre-charge period; Phase 1 = 1*DCLK, Phase 2 = 15*DCLK
 	SSD1306_CMD_SET_VCOMH_DESELECT, 0x20, // Set Vcomh deselect level; Level = 0.77*Vcc
 	SSD1306_CMD_SET_CHARGE_PUMP, 0x14, // Charge pump setting; Enable charge pump during display on
-	SSD1306_CMD_OUTPUT_RAM, // Display RAM contents
+	SSD1306_CMD_DISPLAY_RAM_CONTENTS, // Display RAM contents
 	SSD1306_CMD_DISPLAY_NORMAL, // Display normal (non-inverted)
 	SSD1306_CMD_DISPLAY_ON // Display ON
 };
@@ -130,4 +130,18 @@ void SSD1306_SetPageRange(uint8_t pagefrom, uint8_t pageto)
 	TWIM_TransmitData(pagefrom);
 	TWIM_TransmitData(pageto);
 	TWIM_EndTransaction();
+}
+
+void SSD1306_DrawImage(uint8_t *data, uint8_t width, uint8_t height, uint8_t offset)
+{
+	if((width+offset) > 128 || height > 32)
+		return;
+	SSD1306_PageWrite(data, width, 0, offset);
+	if(width > 8)
+		SSD1306_PageWrite((data+width), width, 1, offset);
+	if(width > 16)
+		SSD1306_PageWrite((data+2*width), width, 2, offset);
+	if(width > 24)
+		SSD1306_PageWrite((data+3*width), width, 3, offset);
+	return;
 }
